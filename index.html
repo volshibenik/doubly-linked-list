@@ -10,6 +10,63 @@
 	</style>
 </head>
 <body>
-	<script src="./app.bundle.js"></script>
+	<!--<script src="./app.bundle.js"></script>-->
+	
+	<script>
+    class LinkedList {
+      constructor() {
+        this.body = [];
+
+      }
+  
+      append(data) {
+        this.body.push(data)
+      }
+  
+      head() {}
+  
+      tail() {}
+  
+      at(index) {}
+  
+      insertAt(index, data) {}
+  
+      isEmpty() {}
+  
+      clear() {}
+  
+      deleteAt(index) {}
+  
+      reverse() {}
+  
+      indexOf(data) {}
+      
+      get l() {
+        return this.body.length;
+      }
+    }
+    
+    const list = new LinkedList();
+
+    list.append(123);
+    list.append(413);
+    console.log(list);
+    
+    console.log(list.l);
+    /*expect(list.length).to.equal(2);
+    expect(list.tail()).to.equal(413);
+    expect(list.head()).to.equal(123);*/
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	</script>
+	
+	
 </body>
 </html>

@@ -1,9 +1,13 @@
 const Node = require('./node');
 
 class LinkedList {
-    constructor() {}
+    constructor([]) {
+      this.body = [];
+    }
 
-    append(data) {}
+    append(data) {
+      this.body.push(data)
+    }
 
     head() {}
 
@@ -23,5 +27,10 @@ class LinkedList {
 
     indexOf(data) {}
 }
+
+
+
+
+
 
 module.exports = LinkedList;
