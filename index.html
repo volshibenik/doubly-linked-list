@@ -13,69 +13,99 @@
 	<!--<script src="./app.bundle.js"></script>-->
 	
 	<script>
-    class LinkedList {
-      constructor() {
-        this.body = [];
-
-      }
-  
-      append(data) {
-        this.body.push(data)
-      }
-  
-      head() {}
-  
-      tail() {}
-  
-      at(index) {}
-  
-      insertAt(index, data) {}
-  
-      isEmpty() {}
-  
-      clear() {}
-  
-      deleteAt(index) {}
-  
-      reverse() {}
-  
-      indexOf(data) {}
-      
-      get length() {
-        return this.body.length;
+    class Node {
+      constructor(data) {
+        this.data = data;
+    //    this.prev = prev;
+        this.next = null;
       }
     }
     
-    class Node {
-    constructor(data = null, prev = null, next = null) {
-        this.data = data;
-        this.prev = prev;
-        this.next = next;
+    
+    
+    class LinkedList {
+      constructor() {
+        this.head = null;
+        this.length = 0;
+
+      }
+
+      append(data) {
+        var newNode = new Node(data);
+        var targetNode = this.head;
+        
+        console.log('newNex',newNode.next);
+        
+        if (!targetNode) {
+          this.head = newNode;
+          this.length++;
+        } else {
+          
+          for (var i = 1; i < this.length; i++) {
+            targetNode = targetNode.next;
+          }
+          targetNode.next = newNode;
+          this.length++;
+          
+        }
+        
+      }
+      
+      
+
+      head() {
+      }
+
+      tail() {
+      }
+
+      at(index) {
+      }
+
+      insertAt(index, data) {
+      }
+
+      isEmpty() {
+      }
+
+      clear() {
+      }
+
+      deleteAt(index) {
+      }
+
+      reverse() {
+      }
+
+      indexOf(data) {
+      }
+
     }
-}
+    
+
     
     
     
     
     const list = new LinkedList();
 
-    list.append(123);
-    list.append(413);
+    list.append(111);
+    list.append(222);
+    list.append(333);
+    list.append(444);
+    list.append(555);
     console.log(list);
     
     console.log(list.length);
+    console.log(list.head);
+    
+//    console.log(list.tail);
     /*expect(list.length).to.equal(2);
     expect(list.tail()).to.equal(413);
     expect(list.head()).to.equal(123);*/
     
     
-    
-    var kk = [1,2,2,2,2,2,2,2,2,1,1,1,1,1];
-    console.log(kk);
-    kk.splice(0, kk.length);
-    console.log(kk);
-    
-    
+
     
     
 	</script>
