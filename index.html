@@ -23,63 +23,115 @@
     
     
     
-    class LinkedList {
-      constructor() {
-        this.head = null;
+		class LinkedList {
+			constructor() {
+				this._head = null;
 				this._tail = null;
-        this.length = 0;
-				
+				this.length = 0;
 
-      }
+			}
+			append(data) {
+				var newNode = new Node(data);
+				var targetNode = this._head;
 
-      append(data) {
-        var newNode = new Node(data);
-        var targetNode = this.head;
-        
-        
-        if (!targetNode) {
-          this.head = newNode;
-          this.length++;
-        } else {
-          
-          for (var i = 1; i < this.length; i++) {  
-						targetNode = targetNode.next;   //flipping through the end
-          }
+
+				if (!targetNode) {
+					this._head = newNode;
 					this._tail = newNode;
-          targetNode.next = this._tail;
-					targetNode.next.prev = targetNode;
+					this.length++;
+					
+				} else {
 
-          this.length++;
-          
-        }
-        
-      }
-      
-      
+					for (var i = 1; i < this.length; i++) {  
+						targetNode = targetNode.next;   //flipping through the end
+					}
 
-      head() {
-      }
+					this._tail = newNode;
+					targetNode.next = this._tail;
+					this._tail.prev = targetNode;
+					
+					this.length++;
 
-      tail() {
-				return this._tail;
-      }
+				}
 
-      at(index) {
-      }
+			}
 
-      insertAt(index, data) {
-      }
+			head() {
+				return  this._head? this._head['data'] : this._head;
+			}
+
+			tail() {
+				return this._tail['data'] || this._tail;
+			}
+
+			at(index) {
+				var targetNode = this._head;
+				for (var i = 0; i < index; i++) {  
+					targetNode = targetNode.next;   //flipping through the end
+				}
+				return targetNode['data'];
+			}
+
+			insertAt(index, data) {
+				var targetNode = this._head;
+				
+				for (var i = 0; i < index; i++) {  
+					targetNode = targetNode.next;   //flipping through the end
+				}
+				console.log('prev',targetNode.prev);
+				console.log('nex',targetNode.next);
+				var newNode = new Node(data,targetNode.prev,targetNode);
+				targetNode.prev.next = newNode;
+				targetNode.prev = newNode;
+				this.length++;
+				console.log(newNode);
+				
+				console.log('it',targetNode);
+				console.log('prev',targetNode.prev);
+				console.log('nex',targetNode.next);
+
+			}
 
       isEmpty() {
+				return this._head === null
       }
 
       clear() {
+				this._head = null;
+				this._tail = null;
+				this.length = 0;
       }
 
       deleteAt(index) {
+				var targetNode = this._head;
+
+				for (var i = 0; i < index; i++) {  
+					targetNode = targetNode.next;   //flipping through the end
+				}
+
+				targetNode.prev.next = targetNode.next;
+				targetNode.next.prev = targetNode.prev;
+				console.log('it',targetNode);
+				console.log('prev',targetNode.prev);
+				console.log('nex',targetNode.next);
+				this.length--
+				
+				
+				
       }
 
       reverse() {
+				var snake = this._tail,
+						k = null;
+				for (var i = 0; i < this.length; i++) {
+					snake.next = snake.prev;
+					snake.prev = k;
+					
+					k = snake;
+					snake = snake.next;
+					console.log( 'sn', snake.next, 'sp',snake.prev, 'k',k , 'snake', snake);
+				}
+				
       }
 
       indexOf(data) {
@@ -100,11 +152,27 @@
     list.append(444);
     list.append(555);
     console.log(list);
+		
+		//list.insertAt(1,'kkk');
+		
     
     console.log(list.length);
-    console.log(list.head);
+    console.log(list);
+		list.reverse();
+		console.log(list);
 		
-		console.log(list.tail());
+		
+		list.deleteAt(3);
+		console.log(list.length);
+		console.log(list);
+		console.log(list.reverse());
+		
+/*		console.log(list.tail());
+		console.log(list);
+		console.log('kkkkkk',list.head());
+list.clear();
+		console.log(list.head());
+		console.log(list);*/
     
 //    console.log(list.tail);
     /*expect(list.length).to.equal(2);
