@@ -10,7 +10,7 @@
 	</style>
 </head>
 <body>
-	<!--<script src="./app.bundle.js"></script>-->
+	<script src="./app.bundle.js"></script>
 	
 	<script>
 		class Node {
@@ -24,114 +24,148 @@
     
     
 		class LinkedList {
-			constructor() {
-				this._head = null;
-				this._tail = null;
-				this.length = 0;
+      constructor() {
+        this._head = null;
+        this._tail = null;
+        this.length = 0;
 
-			}
-			append(data) {
-				var newNode = new Node(data);
-				var targetNode = this._head;
+      }
+      append(data) {
+        
+        var newNode = new Node(data);
+        var targetNode = this._head;
 
 
-				if (!targetNode) {
-					this._head = newNode;
-					this._tail = newNode;
-					this.length++;
-					
-				} else {
+        if (!targetNode) {
+          this._head = newNode;
+          this._tail = newNode;
+          this.length++;
+        } else {
 
-					for (var i = 1; i < this.length; i++) {  
-						targetNode = targetNode.next;   //flipping through the end
-					}
+          for (var i = 1; i < this.length; i++) {  
+            targetNode = targetNode.next;   //flipping through the end
+          }
 
-					this._tail = newNode;
-					targetNode.next = this._tail;
-					this._tail.prev = targetNode;
-					
-					this.length++;
+          this._tail = newNode;
+          targetNode.next = this._tail;
+          this._tail.prev = targetNode;
 
-				}
+          this.length++;
 
-			}
+        }
 
-			head() {
-				return  this._head? this._head['data'] : this._head;
-			}
+        return this;
 
-			tail() {
-				return this._tail['data'] || this._tail;
-			}
+      }
 
-			at(index) {
-				var targetNode = this._head;
-				for (var i = 0; i < index; i++) {  
-					targetNode = targetNode.next;   //flipping through the end
-				}
-				return targetNode['data'];
-			}
+      head() {
+        return this._head?  this._head['data'] : this._head;
+      }
 
-			insertAt(index, data) {
-				var targetNode = this._head;
-				
-				for (var i = 0; i < index; i++) {  
-					targetNode = targetNode.next;   //flipping through the end
-				}
-				console.log('prev',targetNode.prev);
-				console.log('nex',targetNode.next);
-				var newNode = new Node(data,targetNode.prev,targetNode);
-				targetNode.prev.next = newNode;
-				targetNode.prev = newNode;
-				this.length++;
-				console.log(newNode);
-				
-				console.log('it',targetNode);
-				console.log('prev',targetNode.prev);
-				console.log('nex',targetNode.next);
+      tail() {
+        return this._tail?  this._tail['data'] : this._tail;
+      }
 
-			}
+      at(index) {
+        var targetNode = this._head;
+        for (var i = 0; i < index; i++) {  
+          targetNode = targetNode.next;   
+        }
+        return targetNode['data'];
+      }
+
+      insertAt(index, data) {
+        
+        if (!this._head) {
+          
+          this.append(data);
+          return this;
+          
+        }
+        
+        var targetNode = this._head;
+
+        for (var i = 0; i < index; i++) {  
+          targetNode = targetNode.next;   
+        }
+        var newNode = new Node(data, targetNode.prev, targetNode);
+        targetNode.prev.next = newNode;
+        targetNode.prev = newNode;
+        this.length++;
+
+        return this;
+
+      }
 
       isEmpty() {
-				return this._head === null
+        return this._head === null
       }
 
       clear() {
-				this._head = null;
-				this._tail = null;
-				this.length = 0;
+        this._head = null;
+        this._tail = null;
+        this.length = 0;
       }
 
       deleteAt(index) {
-				var targetNode = this._head;
+        
+        if (this.length === 1) {
+          
+          this.clear();
+          return this;
+          
+        } else if (index === 0) {
+          
+          this._head = this._head.next;
+          
+          this._head? this._head.prev = null : null;
+          
+        } else if (index === this.length-1) {
+          
+          this._tail = this._tail.prev;
+          this._tail? this._tail.next = null : null;
+          
+        } else {
+          
+          var targetNode = this._head;
+          for (var i = 0; i < index; i++) {  
+            targetNode = targetNode.next;   
+          }
 
-				for (var i = 0; i < index; i++) {  
-					targetNode = targetNode.next;   //flipping through the end
-				}
+          targetNode.prev.next = targetNode.next;
+          targetNode.next.prev = targetNode.prev;
+          
+        }
 
-				targetNode.prev.next = targetNode.next;
-				targetNode.next.prev = targetNode.prev;
-				console.log('it',targetNode);
-				console.log('prev',targetNode.prev);
-				console.log('nex',targetNode.next);
-				this.length--
-				
-				
-				
+        this.length--;
+
+        return this;
+
       }
 
       reverse() {
 				var snake = this._tail,
-						k = null;
+						pre = null,
+            nex = snake.prev;
+            
 				for (var i = 0; i < this.length; i++) {
-					snake.next = snake.prev;
-					snake.prev = k;
+					snake.next = nex;
+					snake.prev = pre;
 					
-					k = snake;
-					snake = snake.next;
-					console.log( 'sn', snake.next, 'sp',snake.prev, 'k',k , 'snake', snake);
+					pre = snake;
+					snake = nex;
+          nex = snake? snake.prev : null;
+    //      console.log(snake);
+          
 				}
-				
+        pre = this._tail;
+        nex = this._head;
+        
+        this._head = pre;
+        this._tail = nex;
+        
+
+				return this;
       }
 
       indexOf(data) {
@@ -146,26 +180,31 @@
     
     const list = new LinkedList();
 
-    list.append(111);
-    list.append(222);
-    list.append(333);
-    list.append(444);
-    list.append(555);
+   // list.append(4).reverse().deleteAt(0).clear().insertAt(0, 3);
+    list.append(4);
+    console.log(list);
+    list.reverse();
+    console.log(list);
+    list.deleteAt(0);
+    console.log(list);
+    list.clear();
+    console.log(list);
+    list.insertAt(0, 3);
     console.log(list);
 		
 		//list.insertAt(1,'kkk');
 		
     
-    console.log(list.length);
+  /*  console.log(list.length);
     console.log(list);
 		list.reverse();
-		console.log(list);
+		console.log(list);*/
 		
 		
-		list.deleteAt(3);
+	/*list.deleteAt(3);
 		console.log(list.length);
 		console.log(list);
-		console.log(list.reverse());
+		console.log(list.reverse());*/
 		
 /*		console.log(list.tail());
 		console.log(list);
